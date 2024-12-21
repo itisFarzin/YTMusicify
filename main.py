@@ -14,7 +14,7 @@ GREEN = "\033[32m"
 RED = "\033[31m"
 RESET = "\033[0m"
 
-SLEEP_TIME = os.getenv("SLEEP_TIME", 5)
+SLEEP_TIME = int(os.getenv("SLEEP_TIME", 5))
 SPOTIFY_CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 SPOTIFY_REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
@@ -94,7 +94,7 @@ def main():
             print(f"{GREEN}Added {track_name} by {artists_name} to playlist{RESET}")
         except:
             print(f"{RED}Failed to add {track_name} by {artists_name} to playlist{RESET}")
-        time.sleep(SLEEP_TIME + random.randrange(0, 5))
+        time.sleep(int(SLEEP_TIME) + random.randrange(0, 5))
 
 if __name__ == "__main__":
     main()
