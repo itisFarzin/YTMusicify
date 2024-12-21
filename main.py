@@ -20,6 +20,7 @@ SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 SPOTIFY_REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
 YOUTUBE_CLIENT_ID = os.getenv("YOUTUBE_CLIENT_ID", None)
 YOUTUBE_CLIENT_SECRET = os.getenv("YOUTUBE_CLIENT_SECRET", None)
+ONLY_THE_FIRST_ARTIST = os.getenv("ONLY_THE_FIRST_ARTIST", "no").lower() == "yes"
 
 if os.getenv("PROXY", None):
     PROXIES = {"https": os.getenv("PROXY")}
@@ -77,20 +78,22 @@ def main():
     for item in all_liked_songs:
         track = item["track"]
         track_name = track["name"]
-        first_artist = track["album"]["artists"][0]["name"]
+        artists_name = (
+            track["album"]["artists"][0]["name"] if ONLY_THE_FIRST_ARTIST else 
+            ", ".join([artist["name"] for artist in track["album"]["artists"]]))
         try:
             search_results = ytmusic.search(
-                track_name + " " + first_artist,
+                track_name + " " + artists_name,
                 filter="songs",
                 limit=1
             )
             track = search_results[0]
             ytmusic.add_playlist_items(playlistID, [track["videoId"]])
             track_name = track["title"]
-            first_artist = track["artists"][0]["name"]
-            print(f"{GREEN}Added {track_name} by {first_artist} to playlist{RESET}")
+            artists_name = ", ".join([artist["name"] for artist in track["artists"]])
+            print(f"{GREEN}Added {track_name} by {artists_name} to playlist{RESET}")
         except:
-            print(f"{RED}Failed to add {track_name} by {first_artist} to playlist{RESET}")
+            print(f"{RED}Failed to add {track_name} by {artists_name} to playlist{RESET}")
         time.sleep(SLEEP_TIME + random.randrange(0, 5))
 
 if __name__ == "__main__":

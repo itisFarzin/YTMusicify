@@ -61,6 +61,7 @@ A script that syncs your Spotify liked songs to a YouTube Music playlist.
      SPOTIFY_REDIRECT_URI=http://localhost:8888/callback
      YOUTUBE_CLIENT_ID=your_oauth_client_secret  # Or use the browser method and set this to empty
      YOUTUBE_CLIENT_SECRET=your_oauth_client_secret  # Or use the browser method and set this to empty
+     ONLY_THE_FIRST_ARTIST=no
      PROXY=socks5://127.0.0.1:8080  # Optional
      ```
 
